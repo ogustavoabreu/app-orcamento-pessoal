@@ -60,6 +60,7 @@ class Bd {
                 continue 
             }
 
+            despesa.id = i
             despesas.push(despesa)
         }
 
@@ -103,6 +104,10 @@ class Bd {
         }
 
         return despesasFiltradas
+    }
+
+    remover(id){
+        localStorage.removeItem(id)
     }
 }
 
@@ -195,6 +200,23 @@ function carregarListaDespesas(despesas = Array(), filtro = false) {
         linha.insertCell(1).innerHTML = d.tipo
         linha.insertCell(2).innerHTML = d.descricao
         linha.insertCell(3).innerHTML = d.valor
+
+        //botão de exclusão
+        let btn = document.createElement("button")
+        btn.className = 'btn btn-danger'
+        btn.innerHTML = '<i class= "fas fa-times"></i>'
+        btn.id = `id_despesa_${d.id}`
+        btn.onclick = function(){
+            //remover despesa            
+            let id = this.id.replace('id_despesa_', '')
+
+            bd.remover(id)
+
+            window.location.reload()
+        }
+        linha.insertCell(4).append(btn)
+
+        console.log(d)
 
     })
 
